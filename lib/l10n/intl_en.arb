@@ -1,0 +1,22 @@
+{
+    "errServiceUnavailable": "Service unavailable, please contact admin.",
+    "errNetworkUnavailable": "Network connection unavailable, please try again.",
+    "errInvalidOperation": "Invalid operation, please try again.",
+    "errFileUnavailable": "No file found",
+    "tokenExpireWarning": "Login expired. Please login again.",
+    "renewTokenErr": "Renew token error, Please login again.",
+    "sendRequestErr": "Send request error, Please login again.",
+    "username": "Username",
+    "usernameHint": "Username/Email/Mobile",
+    "usernameEmptyErr": "Username can not be empty",
+    "password": "Password",
+    "passwordEmptyErr": "Password can not be empty",
+    "registerEntryBtn": "No account? Go to sign up",
+    "loginBtn": "Login",
+    "startBtnTitle": "Start",
+    "stopBtnTitle": "Stop",
+    "stopTracking": "Stop Tracking",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "confirmLogoutTip": "Confirm to logout?"
+}
