@@ -1,4 +1,5 @@
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
 import '../constant.dart';
@@ -27,20 +28,21 @@ class LocationHiveModel extends HiveObject {
   @HiveField(4)
   double? direction;
   @HiveField(5)
-  int? dateTimeOcurred;
+  String? dateTimeOcurred;
 
   @override
   String toString() {
     return '{id: $username, role: $latitude, content: $longitude, speed: $speed, direction: $direction, dateTimeOcurred: $dateTimeOcurred}';
   }
 
-  factory LocationHiveModel.fromPosition(Position position, String username) =>
+  factory LocationHiveModel.fromPosition(
+          bg.Location position, String username) =>
       LocationHiveModel(
         username: username,
-        latitude: position.latitude,
-        longitude: position.longitude,
-        speed: position.speed,
-        direction: position.heading,
-        dateTimeOcurred: position.timestamp.millisecondsSinceEpoch,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        speed: position.coords.speed,
+        direction: position.coords.heading,
+        dateTimeOcurred: position.timestamp,
       );
 }

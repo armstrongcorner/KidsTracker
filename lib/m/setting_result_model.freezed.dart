@@ -475,6 +475,8 @@ mixin _$SettingModel {
   int? get pushFrequency => throw _privateConstructorUsedError;
   @JsonKey(name: 'distanceFilter')
   int? get distanceFilter => throw _privateConstructorUsedError;
+  @JsonKey(name: 'accuracy')
+  String? get accuracy => throw _privateConstructorUsedError;
   @JsonKey(name: 'startTime')
   String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'endTime')
@@ -502,6 +504,7 @@ abstract class $SettingModelCopyWith<$Res> {
       @JsonKey(name: 'collectionFrequency') int? collectionFrequency,
       @JsonKey(name: 'pushFrequency') int? pushFrequency,
       @JsonKey(name: 'distanceFilter') int? distanceFilter,
+      @JsonKey(name: 'accuracy') String? accuracy,
       @JsonKey(name: 'startTime') String? startTime,
       @JsonKey(name: 'endTime') String? endTime});
 }
@@ -526,6 +529,7 @@ class _$SettingModelCopyWithImpl<$Res, $Val extends SettingModel>
     Object? collectionFrequency = freezed,
     Object? pushFrequency = freezed,
     Object? distanceFilter = freezed,
+    Object? accuracy = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
   }) {
@@ -550,6 +554,10 @@ class _$SettingModelCopyWithImpl<$Res, $Val extends SettingModel>
           ? _value.distanceFilter
           : distanceFilter // ignore: cast_nullable_to_non_nullable
               as int?,
+      accuracy: freezed == accuracy
+          ? _value.accuracy
+          : accuracy // ignore: cast_nullable_to_non_nullable
+              as String?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -576,6 +584,7 @@ abstract class _$$SettingModelImplCopyWith<$Res>
       @JsonKey(name: 'collectionFrequency') int? collectionFrequency,
       @JsonKey(name: 'pushFrequency') int? pushFrequency,
       @JsonKey(name: 'distanceFilter') int? distanceFilter,
+      @JsonKey(name: 'accuracy') String? accuracy,
       @JsonKey(name: 'startTime') String? startTime,
       @JsonKey(name: 'endTime') String? endTime});
 }
@@ -598,6 +607,7 @@ class __$$SettingModelImplCopyWithImpl<$Res>
     Object? collectionFrequency = freezed,
     Object? pushFrequency = freezed,
     Object? distanceFilter = freezed,
+    Object? accuracy = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
   }) {
@@ -622,6 +632,10 @@ class __$$SettingModelImplCopyWithImpl<$Res>
           ? _value.distanceFilter
           : distanceFilter // ignore: cast_nullable_to_non_nullable
               as int?,
+      accuracy: freezed == accuracy
+          ? _value.accuracy
+          : accuracy // ignore: cast_nullable_to_non_nullable
+              as String?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -643,6 +657,7 @@ class _$SettingModelImpl implements _SettingModel {
       @JsonKey(name: 'collectionFrequency') this.collectionFrequency,
       @JsonKey(name: 'pushFrequency') this.pushFrequency,
       @JsonKey(name: 'distanceFilter') this.distanceFilter,
+      @JsonKey(name: 'accuracy') this.accuracy,
       @JsonKey(name: 'startTime') this.startTime,
       @JsonKey(name: 'endTime') this.endTime});
 
@@ -665,6 +680,9 @@ class _$SettingModelImpl implements _SettingModel {
   @JsonKey(name: 'distanceFilter')
   final int? distanceFilter;
   @override
+  @JsonKey(name: 'accuracy')
+  final String? accuracy;
+  @override
   @JsonKey(name: 'startTime')
   final String? startTime;
   @override
@@ -673,7 +691,7 @@ class _$SettingModelImpl implements _SettingModel {
 
   @override
   String toString() {
-    return 'SettingModel(id: $id, username: $username, collectionFrequency: $collectionFrequency, pushFrequency: $pushFrequency, distanceFilter: $distanceFilter, startTime: $startTime, endTime: $endTime)';
+    return 'SettingModel(id: $id, username: $username, collectionFrequency: $collectionFrequency, pushFrequency: $pushFrequency, distanceFilter: $distanceFilter, accuracy: $accuracy, startTime: $startTime, endTime: $endTime)';
   }
 
   @override
@@ -690,6 +708,8 @@ class _$SettingModelImpl implements _SettingModel {
                 other.pushFrequency == pushFrequency) &&
             (identical(other.distanceFilter, distanceFilter) ||
                 other.distanceFilter == distanceFilter) &&
+            (identical(other.accuracy, accuracy) ||
+                other.accuracy == accuracy) &&
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime));
@@ -697,8 +717,16 @@ class _$SettingModelImpl implements _SettingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, username,
-      collectionFrequency, pushFrequency, distanceFilter, startTime, endTime);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      username,
+      collectionFrequency,
+      pushFrequency,
+      distanceFilter,
+      accuracy,
+      startTime,
+      endTime);
 
   /// Create a copy of SettingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -723,6 +751,7 @@ abstract class _SettingModel implements SettingModel {
       @JsonKey(name: 'collectionFrequency') final int? collectionFrequency,
       @JsonKey(name: 'pushFrequency') final int? pushFrequency,
       @JsonKey(name: 'distanceFilter') final int? distanceFilter,
+      @JsonKey(name: 'accuracy') final String? accuracy,
       @JsonKey(name: 'startTime') final String? startTime,
       @JsonKey(name: 'endTime') final String? endTime}) = _$SettingModelImpl;
 
@@ -744,6 +773,9 @@ abstract class _SettingModel implements SettingModel {
   @override
   @JsonKey(name: 'distanceFilter')
   int? get distanceFilter;
+  @override
+  @JsonKey(name: 'accuracy')
+  String? get accuracy;
   @override
   @JsonKey(name: 'startTime')
   String? get startTime;

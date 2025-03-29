@@ -35,6 +35,7 @@ class SettingModel with _$SettingModel {
     @JsonKey(name: 'collectionFrequency') int? collectionFrequency,
     @JsonKey(name: 'pushFrequency') int? pushFrequency,
     @JsonKey(name: 'distanceFilter') int? distanceFilter,
+    @JsonKey(name: 'accuracy') String? accuracy,
     @JsonKey(name: 'startTime') String? startTime,
     @JsonKey(name: 'endTime') String? endTime,
   }) = _SettingModel;

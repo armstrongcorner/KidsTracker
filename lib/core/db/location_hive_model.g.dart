@@ -22,7 +22,7 @@ class LocationHiveModelAdapter extends TypeAdapter<LocationHiveModel> {
       longitude: (fields[2] as num?)?.toDouble(),
       speed: (fields[3] as num?)?.toDouble(),
       direction: (fields[4] as num?)?.toDouble(),
-      dateTimeOcurred: (fields[5] as num?)?.toInt(),
+      dateTimeOcurred: fields[5] as String?,
     );
   }
 

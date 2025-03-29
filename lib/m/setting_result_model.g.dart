@@ -49,6 +49,7 @@ _$SettingModelImpl _$$SettingModelImplFromJson(Map<String, dynamic> json) =>
       collectionFrequency: (json['collectionFrequency'] as num?)?.toInt(),
       pushFrequency: (json['pushFrequency'] as num?)?.toInt(),
       distanceFilter: (json['distanceFilter'] as num?)?.toInt(),
+      accuracy: json['accuracy'] as String?,
       startTime: json['startTime'] as String?,
       endTime: json['endTime'] as String?,
     );
@@ -60,6 +61,7 @@ Map<String, dynamic> _$$SettingModelImplToJson(_$SettingModelImpl instance) =>
       'collectionFrequency': instance.collectionFrequency,
       'pushFrequency': instance.pushFrequency,
       'distanceFilter': instance.distanceFilter,
+      'accuracy': instance.accuracy,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
     };

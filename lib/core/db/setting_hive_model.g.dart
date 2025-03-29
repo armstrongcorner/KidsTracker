@@ -22,15 +22,16 @@ class SettingHiveModelAdapter extends TypeAdapter<SettingHiveModel> {
       collectionFrequency: (fields[2] as num?)?.toInt(),
       pushFrequency: (fields[3] as num?)?.toInt(),
       distanceFilter: (fields[4] as num?)?.toInt(),
-      startTime: fields[5] as String?,
-      endTime: fields[6] as String?,
+      accuracy: fields[5] as String?,
+      startTime: fields[6] as String?,
+      endTime: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingHiveModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -42,8 +43,10 @@ class SettingHiveModelAdapter extends TypeAdapter<SettingHiveModel> {
       ..writeByte(4)
       ..write(obj.distanceFilter)
       ..writeByte(5)
-      ..write(obj.startTime)
+      ..write(obj.accuracy)
       ..writeByte(6)
+      ..write(obj.startTime)
+      ..writeByte(7)
       ..write(obj.endTime);
   }
 

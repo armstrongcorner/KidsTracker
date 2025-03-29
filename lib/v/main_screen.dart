@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kids_tracker/core/utils/string_util.dart';
 
 import '../core/route/app_route.dart';
 import '../core/session_manager.dart';
@@ -38,17 +39,15 @@ class MainScreen extends HookConsumerWidget {
               EasyLoading.show(
                 maskType: EasyLoadingMaskType.clear,
               );
-              final setting = await ref.read(getLocalSettingProvider.future);
-              print('aaaaaa: $setting');
+              final settingList =
+                  await ref.read(getLocalSettingProvider.future);
+              print('aaaaaa: ${settingList.toString()}');
               EasyLoading.dismiss();
 
-              if (setting != null) {
-                WSToast.show('''id: ${setting.collectionFrequency}
-              username: ${setting.username}
-              collectionFrequency: ${setting.collectionFrequency}
-              pushFrequency: ${setting.pushFrequency}
-              startTime: ${setting.startTime}
-              endTime: ${setting.endTime}''');
+              if (isNotEmptyList(settingList)) {
+                WSToast.show(
+                  'setting list: ${settingList.toString()}',
+                );
               } else {
                 WSToast.show('no setting');
               }
@@ -143,12 +142,12 @@ class MainScreen extends HookConsumerWidget {
                       maskType: EasyLoadingMaskType.clear,
                     );
 
-                    final setting =
+                    final settingList =
                         await ref.read(fetchOrAddDefaultSettingProvider.future);
-                    print(setting);
-                    if (setting != null) {
+                    print(settingList);
+                    if (isNotEmptyList(settingList)) {
                       // Sync remote setting to local db
-                      await ref.read(syncSettingProvider(setting).future);
+                      await ref.read(syncSettingProvider(settingList).future);
 
                       // _startCheckTrackingService(ref, isTrackingTimerRunning);
                       startTrackingService(

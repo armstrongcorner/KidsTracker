@@ -20,12 +20,13 @@ class SettingLocalDataSource {
   late final WSLocalStorage storage = _ref.read(localStorageProvider);
   late final SessionManager sessionManager = _ref.read(sessionManagerProvider);
 
-  Future<SettingHiveModel?> getSetting({String? username}) async {
+  Future<List<SettingHiveModel>?> getSettingList({String? username}) async {
     final Box<SettingHiveModel> settingBox =
         await storage.openBox<SettingHiveModel>(BOX_NAME_SETTING);
     if (isNotEmpty(username)) {
       return settingBox.values
-          .firstWhereOrNull((element) => element.userName == username);
+          .where((element) => element.userName == username)
+          .toList();
     } else {
       return null;
     }

@@ -13,6 +13,7 @@ class SettingHiveModel extends HiveObject {
     this.collectionFrequency,
     this.pushFrequency,
     this.distanceFilter,
+    this.accuracy,
     this.startTime,
     this.endTime,
   });
@@ -28,13 +29,15 @@ class SettingHiveModel extends HiveObject {
   @HiveField(4)
   int? distanceFilter;
   @HiveField(5)
-  String? startTime;
+  String? accuracy;
   @HiveField(6)
+  String? startTime;
+  @HiveField(7)
   String? endTime;
 
   @override
   String toString() {
-    return '{id: $id, userName: $userName, collectionFrequency: $collectionFrequency, pushFrequency: $pushFrequency, distanceFilter: $distanceFilter, startTime: $startTime, endTime: $endTime}';
+    return '{id: $id, userName: $userName, collectionFrequency: $collectionFrequency, pushFrequency: $pushFrequency, distanceFilter: $distanceFilter, accuracy: $accuracy, startTime: $startTime, endTime: $endTime}';
   }
 
   factory SettingHiveModel.fromJson(Map<String, dynamic> json) =>
@@ -44,6 +47,7 @@ class SettingHiveModel extends HiveObject {
         collectionFrequency: json['collectionFrequency'],
         pushFrequency: json['pushFrequency'],
         distanceFilter: json['distanceFilter'],
+        accuracy: json['accuracy'],
         startTime: json['startTime'],
         endTime: json['endTime'],
       );
@@ -55,6 +59,7 @@ class SettingHiveModel extends HiveObject {
         collectionFrequency: settingModel.collectionFrequency,
         pushFrequency: settingModel.pushFrequency,
         distanceFilter: settingModel.distanceFilter,
+        accuracy: settingModel.accuracy,
         startTime: settingModel.startTime,
         endTime: settingModel.endTime,
       );
@@ -65,6 +70,7 @@ class SettingHiveModel extends HiveObject {
         collectionFrequency: collectionFrequency,
         pushFrequency: pushFrequency,
         distanceFilter: distanceFilter,
+        accuracy: accuracy,
         startTime: startTime,
         endTime: endTime,
       );
