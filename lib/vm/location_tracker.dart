@@ -100,34 +100,11 @@ void backgroundFetchHeadlessTask(bf.HeadlessTask task) async {
 
 Future<bg.Config> getBackgroundGeolocationConfig(
     WidgetRef ref, List<SettingModel>? settingList) async {
-  var accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-  if (isNotEmptyList(settingList)) {
-    switch ((settingList?.first.accuracy ?? '').toLowerCase()) {
-      case 'high':
-        accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-        break;
-      case 'medium':
-        accuracy = bg.Config.DESIRED_ACCURACY_MEDIUM;
-        break;
-      case 'low':
-        accuracy = bg.Config.DESIRED_ACCURACY_LOW;
-        break;
-      default:
-        accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-    }
-  }
-  final distanceFilter = (settingList?.first.distanceFilter ?? 10).toDouble();
-  final List<String> scheduleList = [];
-  if (isNotEmptyList(settingList)) {
-    for (var setting in settingList!) {
-      scheduleList.add(
-          '1-7 ${DateUtil.getShortTimeStr(setting.startTime ?? '00:00')}-${DateUtil.getShortTimeStr(setting.endTime ?? '23:59')}');
-    }
-  }
+  final dynamicConfig = reConfigureTrackingService(settingList ?? []);
 
   return bg.Config(
-    desiredAccuracy: accuracy,
-    distanceFilter: distanceFilter,
+    desiredAccuracy: dynamicConfig['accuracy'],
+    distanceFilter: dynamicConfig['distanceFilter'],
     heartbeatInterval: 60,
     preventSuspend: true,
     enableHeadless: true,
@@ -143,7 +120,7 @@ Future<bg.Config> getBackgroundGeolocationConfig(
       'userName': settingList?.first.username ?? '',
       'createdDateTime': DateUtil.getTimeStampISO8601(DateTime.now()),
     },
-    schedule: scheduleList,
+    schedule: dynamicConfig['schedule'] as List<String>,
     stopOnStationary: false,
     isMoving: true,
     stopOnTerminate: false,
@@ -199,36 +176,11 @@ Future<void> startTrackingService(
       }
       ref.read(syncSettingProvider(newSettingList));
 
-      var accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-      if (isNotEmptyList(newSettingList)) {
-        switch ((newSettingList.first.accuracy ?? '').toLowerCase()) {
-          case 'high':
-            accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-            break;
-          case 'medium':
-            accuracy = bg.Config.DESIRED_ACCURACY_MEDIUM;
-            break;
-          case 'low':
-            accuracy = bg.Config.DESIRED_ACCURACY_LOW;
-            break;
-          default:
-            accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-        }
-      }
-      final distanceFilter =
-          (newSettingList.first.distanceFilter ?? 10).toDouble();
-      final List<String> scheduleList = [];
-      if (isNotEmptyList(newSettingList)) {
-        for (var setting in newSettingList) {
-          scheduleList.add(
-              '1-7 ${DateUtil.getShortTimeStr(setting.startTime ?? '00:00')}-${DateUtil.getShortTimeStr(setting.endTime ?? '23:59')}');
-        }
-      }
-
+      final dynamicConfig = reConfigureTrackingService(newSettingList);
       bg.BackgroundGeolocation.setConfig(bg.Config(
-        desiredAccuracy: accuracy,
-        distanceFilter: distanceFilter,
-        schedule: scheduleList,
+        desiredAccuracy: dynamicConfig['accuracy'],
+        distanceFilter: dynamicConfig['distanceFilter'],
+        schedule: dynamicConfig['schedule'] as List<String>,
       ));
 
       theSettingList = newSettingList;
@@ -249,6 +201,47 @@ Future<void> stopTrackingService(ValueNotifier<String> locationInfoString,
 
   locationInfoString.value = '';
   heartBeatCount.value = 0;
+}
+
+Map<String, dynamic> reConfigureTrackingService(
+    List<SettingModel> newSettingList) {
+  SettingModel? effectiveSetting;
+  final List<String> scheduleList = [];
+  for (var setting in newSettingList) {
+    scheduleList.add(
+        '1-7 ${DateUtil.getShortTimeStr(setting.startTime ?? '00:00')}-${DateUtil.getShortTimeStr(setting.endTime ?? '23:59')}');
+    // Get date time range from setting
+    final startDateTime =
+        DateUtil.getTodayDateFromTimeStr(setting.startTime ?? '00:00');
+    final endDateTime =
+        DateUtil.getTodayDateFromTimeStr(setting.endTime ?? '23:59');
+    if (DateUtil.isInTheDataRange(startDateTime, endDateTime, DateTime.now())) {
+      effectiveSetting = setting;
+    }
+  }
+
+  var accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
+  switch ((effectiveSetting?.accuracy ?? '').toLowerCase()) {
+    case 'high':
+      accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
+      break;
+    case 'medium':
+      accuracy = bg.Config.DESIRED_ACCURACY_MEDIUM;
+      break;
+    case 'low':
+      accuracy = bg.Config.DESIRED_ACCURACY_LOW;
+      break;
+    default:
+      accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
+  }
+
+  final distanceFilter = (effectiveSetting?.distanceFilter ?? 10).toDouble();
+
+  return {
+    'distanceFilter': distanceFilter,
+    'accuracy': accuracy,
+    'schedule': scheduleList,
+  };
 }
 
 Future<void> startBackFetchSettingService(WidgetRef ref) async {
@@ -276,33 +269,13 @@ Future<void> startBackFetchSettingService(WidgetRef ref) async {
             newSettingList.toString() != oldSettingList.toString()) {
           await ref.read(syncSettingProvider(newSettingList).future);
 
-          var accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-          switch ((newSettingList!.first.accuracy ?? '').toLowerCase()) {
-            case 'high':
-              accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-              break;
-            case 'medium':
-              accuracy = bg.Config.DESIRED_ACCURACY_MEDIUM;
-              break;
-            case 'low':
-              accuracy = bg.Config.DESIRED_ACCURACY_LOW;
-              break;
-            default:
-              accuracy = bg.Config.DESIRED_ACCURACY_HIGH;
-          }
-          final distanceFilter =
-              (newSettingList.first.distanceFilter ?? 10).toDouble();
-          final List<String> scheduleList = [];
-          for (var setting in newSettingList) {
-            scheduleList.add(
-                '1-7 ${DateUtil.getShortTimeStr(setting.startTime ?? '00:00')}-${DateUtil.getShortTimeStr(setting.endTime ?? '23:59')}');
-          }
-
+          final dynamicConfig =
+              reConfigureTrackingService(newSettingList ?? []);
           // Reconfigure background geolocation regarding new setting
           bg.BackgroundGeolocation.setConfig(bg.Config(
-            desiredAccuracy: accuracy,
-            distanceFilter: distanceFilter,
-            schedule: scheduleList,
+            desiredAccuracy: dynamicConfig['accuracy'],
+            distanceFilter: dynamicConfig['distanceFilter'],
+            schedule: dynamicConfig['schedule'] as List<String>,
           ));
         }
       }

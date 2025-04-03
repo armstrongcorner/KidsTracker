@@ -111,6 +111,24 @@ class DateUtil {
   /// timeString 某个时间字符串
   static DateTime getDateByStr(String timeString) => DateTime.parse(timeString);
 
+  static DateTime getTodayDateFromTimeStr(String timeStr) {
+    // 获取当前日期
+    final now = DateTime.now();
+
+    // 将时间字符串解析为小时、分钟和秒
+    final timeParts = timeStr.split(':');
+    final hour = int.parse(timeParts[0]);
+    final minute = int.parse(timeParts[1]);
+    final second = timeParts.length > 2 ? int.parse(timeParts[2]) : 0;
+
+    // 返回当天的 DateTime 对象
+    return DateTime(now.year, now.month, now.day, hour, minute, second);
+  }
+
+  static isInTheDataRange(DateTime startDate, DateTime endDate, DateTime date) {
+    return date.isAfter(startDate) && date.isBefore(endDate);
+  }
+
   /// 比较两个时间大小
   static TimeSort timeComparison(DateTime time1, DateTime time2) =>
       time1.isBefore(time2)
