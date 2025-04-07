@@ -35,14 +35,14 @@ const int NETWORK_TIMEOUT = 120;
 const String DEV_URL = 'https://intensivechatdev.azurewebsites.net/api';
 const String PROD_URL = 'https://intensivechatdev.azurewebsites.net/api';
 
-const String USER_URL = 'https://intensivecredentialdev.azurewebsites.net/api';
-const String CHAT_URL = 'https://intensiveconversedev.azurewebsites.net/api';
-const String LOCATION_URL =
-    'https://intensivelocationdev.azurewebsites.net/api';
-// const String USER_URL = 'https://intensivecredentialprod.azurewebsites.net/api';
-// const String CHAT_URL = 'https://intensiveconverseprod.azurewebsites.net/api';
+// const String USER_URL = 'https://intensivecredentialdev.azurewebsites.net/api';
+// const String CHAT_URL = 'https://intensiveconversedev.azurewebsites.net/api';
 // const String LOCATION_URL =
-//     'https://intensivelocationprod.azurewebsites.net/api';
+//     'https://intensivelocationdev.azurewebsites.net/api';
+const String USER_URL = 'https://intensivecredentialprod.azurewebsites.net/api';
+const String CHAT_URL = 'https://intensiveconverseprod.azurewebsites.net/api';
+const String LOCATION_URL =
+    'https://intensivelocationprod.azurewebsites.net/api';
 
 /*
  * Network error code
